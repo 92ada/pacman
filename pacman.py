@@ -541,11 +541,10 @@ def readCommand( argv ):
     print(options.pacman)
     pacmanType = loadAgent(options.pacman, noKeyboard)
     agentOpts = parseAgentArgs(options.agentArgs)
-    agentOpts = parseAgentArgs('depth=2')
     if options.numTraining > 0:
         args['numTraining'] = options.numTraining
         if 'numTraining' not in agentOpts: agentOpts['numTraining'] = options.numTraining
-    # print(pacmanType.__name__)
+    print(agentOpts)
     pacman = pacmanType(index=0, **agentOpts) # Instantiate Pacman with agentArgs
     args['pacman'] = pacman
 
@@ -555,11 +554,12 @@ def readCommand( argv ):
         options.numIgnore = int(agentOpts['numTrain'])
 
     # Choose a ghost agent
-    # print(type(options.ghost))
-    ghostType = loadAgent(options.ghost, noKeyboard)
-    # print(ghostType.__name__)
-    # args['ghosts'] = [ghostType( i+1 ) for i in range( options.numGhosts )]
-    ghosts = [ghostType(index=i+1, **agentOpts) for i in range(options.numGhosts)]
+    ghostArgs = 'depth=2'
+    gType = 'ExpectimaxAgent'
+
+    ghostType = loadAgent(gType, noKeyboard)
+    ghostOpts = parseAgentArgs(ghostArgs)
+    ghosts = [ghostType(index=i+1, **ghostOpts) for i in range(options.numGhosts)]
     args['ghosts'] = ghosts
 
     # Choose a display format
